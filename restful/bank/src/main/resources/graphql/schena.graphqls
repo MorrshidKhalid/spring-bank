@@ -1,0 +1,126 @@
+type Query {
+    greeting: String
+    # Find all client(s) this method will return a list of client(s).
+    findAllClientDTOs: [ClientWithOutPinDTO]
+    # This method will return a client by enter the client id.
+    findClientDTOById(id: ID!): ClientWithOutPinDTO
+    # This method will return the client balance.
+    findAccountBalanceById(id: ID!): Float
+    # Get all client names.
+    names: [Name]
+    # Get accounts summary.
+    accSummaryDTOS:[AccountSummary]
+    # This method will return all currencies in a list.
+    currencies: [Currency]
+    # This method will return Transfers using join to get the currency code.
+    findTransDetails: [TransDTO]
+    # This method will return a list of recorded list that keep track the transactions of clients.
+    findLogs:[LogDTO]
+}
+
+type Mutation {
+
+    # Add new client.
+    createClient(clientInput: ClientInput): Client
+    # change client pin code
+    updatePinCode(id: ID!, newPin: String): Boolean
+    # delete client
+    deleteClient(id: ID!): Boolean
+    # Add phone number to a client.
+    addNumber(phone: PhoneInput): Phone
+    # Change the currency rate.
+    changeRate(id:ID!, rate: Float): Boolean
+
+    # Perform deposit.
+    deposit(transIn: TransInput): Boolean
+    # Perform withdrawal.
+    withdrawal(transIn: TransInput): Boolean
+}
+
+type Client {
+    id:ID!
+    accountNo: String
+    pinCode: String
+    firstName: String
+    secondName: String
+    lastName: String
+    email: String
+    accountBalance: Float
+}
+
+type Name {
+    firstName: String
+    secondName: String
+    lastName: String
+}
+
+type AccountSummary {
+    accountNo: String
+    accountBalance: Float
+}
+
+type ClientWithOutPinDTO {
+    id:ID!
+    accountNo: String
+    firstName: String
+    secondName: String
+    lastName: String
+    email: String
+    accountBalance: Float
+}
+
+type Phone {
+    id: ID!
+    number: String
+}
+
+type Transfer {
+    id: ID!
+    mov: String
+    amount: Float
+    currency: Currency
+}
+
+type TransDTO {
+    moveType: String
+    amount: Float
+    code: String
+}
+
+type Currency {
+    id: ID!
+    country: String
+    code: String
+    name: String
+    rate: Float
+}
+
+type LogDTO {
+    id: ID
+    accountNo: String
+    moveType: String
+    amount: Float
+    code: String
+}
+
+input ClientInput {
+    accountNo: String
+    pinCode: String
+    firstName: String
+    secondName: String
+    lastName: String
+    email: String
+    accountBalance: Float
+}
+
+input PhoneInput {
+    number: String
+    clientId: ID
+}
+
+input TransInput {
+    clientId: ID!
+    amount: Float
+    moveType: String
+    currencyId: ID!
+}

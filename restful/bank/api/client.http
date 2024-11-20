@@ -1,0 +1,23 @@
+
+#Where you get all clients in database
+GET http://localhost:8080/api/client/all
+
+
+###
+GET http://localhost:8080/api/client/id/1
+
+
+###
+POST http://localhost:8080/api/client/create
+Content-Type: application/json
+
+{
+  "id": 0,
+  "accountNo": "demo",
+  "pinCode": "string",
+  "firstName": "string",
+  "secondName": "string",
+  "lastName": "string",
+  "email": "Morrshid@gmail.com",
+  "accountBalance": 500
+}
